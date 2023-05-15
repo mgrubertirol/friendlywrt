@@ -1,19 +1,19 @@
 Package/mt7601u-firmware = $(call Package/firmware-default,MediaTek MT7601U firmware)
 define Package/mt7601u-firmware/install
-	$(INSTALL_DIR) $(1)/lib/firmware
+	$(INSTALL_DIR) $(1)/lib/firmware/mediatek
 	$(INSTALL_DATA) \
-		$(PKG_BUILD_DIR)/mt7601u.bin \
-		$(1)/lib/firmware
+		$(PKG_BUILD_DIR)/mediatek/mt7601u.bin \
+		$(1)/lib/firmware/mediatek
 endef
 $(eval $(call BuildPackage,mt7601u-firmware))
 
 Package/mt76x2-firmware = $(call Package/firmware-default,MediaTek MT76x2 firmware)
 define Package/mt76x2-firmware/install
-	$(INSTALL_DIR) $(1)/lib/firmware
+	$(INSTALL_DIR) $(1)/lib/firmware/mediatek
 	$(INSTALL_DATA) \
-		$(PKG_BUILD_DIR)/mt7662.bin \
-		$(PKG_BUILD_DIR)/mt7662_rom_patch.bin \
-		$(1)/lib/firmware
+		$(PKG_BUILD_DIR)/mediatek/mt7662.bin \
+		$(PKG_BUILD_DIR)/mediatek/mt7662_rom_patch.bin \
+		$(1)/lib/firmware/mediatek
 endef
 $(eval $(call BuildPackage,mt76x2-firmware))
 
