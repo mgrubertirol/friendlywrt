@@ -59,11 +59,7 @@ function init_firewall() {
 		;;
 	esac
 
-	if [ -f /sys/module/nft_fullcone/refcnt ]; then
-		uci set firewall.@defaults[0].fullcone='1'
-	else
-		uci set firewall.@defaults[0].fullcone='0'
-	fi
+	uci set firewall.@defaults[0].fullcone='0'
 
 	zone_name=$(uci -q get firewall.@zone[1].name)
 	if [ "$zone_name" = "wan" ]; then
