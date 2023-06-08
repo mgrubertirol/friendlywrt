@@ -167,16 +167,17 @@ detect_mac80211() {
 		if [ -x /usr/bin/readlink -a -h /sys/class/ieee80211/${dev} ]; then
 			product=`cat $(readlink -f /sys/class/ieee80211/${dev}/device)/uevent | grep PRODUCT= | cut -d= -f 2`
 			if [ -z "$product" ]; then
-				# {{ added by friendlyelec
-				# hack for intel ax200
 				driver=`cat $(readlink -f /sys/class/ieee80211/${dev}/device)/uevent | grep DRIVER= | cut -d= -f 2`
-				if [ $driver = "iwlwifi" ]; then
+				# {{ added by friendlyelec
+				# hack for ax200/mt7921/rtl8822ce
+				case "${driver}" in
+				"iwlwifi" | \
+				"mt7921e" | \
+				"rtw_8822ce")
 					pci_id=`cat $(readlink -f /sys/class/ieee80211/${dev}/device)/uevent | grep PCI_ID= | cut -d= -f 2`
 					product="pcie-${driver}-${pci_id}"
-				elif [ $driver = "rtw_8822ce" ]; then
-					pci_id=`cat $(readlink -f /sys/class/ieee80211/${dev}/device)/uevent | grep PCI_ID= | cut -d= -f 2`
-					product="pcie-${driver}-${pci_id}"
-				fi
+					;;
+				esac
 				# }}
 			fi
 		else
@@ -204,6 +205,16 @@ detect_mac80211() {
 			ht_capab="set wireless.radio${devidx}.htmode=HT40"
 			channel=7
 			country=""
+			cell_density="set wireless.radio${devidx}.cell_density='0'"
+			;;
+
+		# mt7921 (pcie & usb)
+		"pcie-mt7921e-14C3:7961" | \
+		"e8d/7961/100")
+			mode_band='5g'
+			ht_capab="set wireless.radio${devidx}.htmode=HE80"
+			channel=157
+			country="set wireless.radio${devidx}.country='CN'"
 			cell_density="set wireless.radio${devidx}.cell_density='0'"
 			;;
 
