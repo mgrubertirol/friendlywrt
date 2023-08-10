@@ -7,3 +7,5 @@ src-git telephony https://git.openwrt.org/feed/telephony.git^6f95d6ab3f359ee2ce8
 #src-git management https://github.com/openwrt-management/packages.git
 #src-git oldpackages http://git.openwrt.org/packages.git
 #src-link custom /usr/src/openwrt/custom-feed
+# Semtech
+src-git lora https://github.com/mgrubertirol/lora-feed
