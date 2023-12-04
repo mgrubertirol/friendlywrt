@@ -159,6 +159,7 @@ detect_mac80211() {
 		htmode=""
 		ht_capab=""
 		cell_density=""
+		rx_stbc=""
 
 		get_band_defaults "$dev"
 
@@ -176,6 +177,10 @@ detect_mac80211() {
 					pci_id=`cat $(readlink -f /sys/class/ieee80211/${dev}/device)/uevent | grep PCI_ID= | cut -d= -f 2`
 					product="pcie-${driver}-${pci_id}"
 					;;
+				"rtl88x2cs")
+					sd_id=`cat $(readlink -f /sys/class/ieee80211/${dev}/device)/uevent | grep SDIO_ID= | cut -d= -f 2`
+					product="sdio-${driver}-${sd_id}"
+					;;
 				esac
 				# }}
 			fi
@@ -189,6 +194,7 @@ detect_mac80211() {
 		fi
 
 		# {{ added by friendlyelec
+		[ -n "$htmode" ] && ht_capab="set wireless.${name}.htmode=$htmode"
 		case "${product}" in
 		"bda/b812/210" | \
 		"bda/c820/200")
@@ -196,6 +202,17 @@ detect_mac80211() {
 			ht_capab="set wireless.radio${devidx}.htmode=HT20"
 			channel=7
 			country="set wireless.radio${devidx}.country='00'"
+			;;
+
+		# rtl88x2bu / rtl88x2cs
+		"bda/b82c/210" | \
+		"sdio-rtl88x2cs-024C:C822")
+			mode_band='5g'
+			ht_capab="set wireless.radio${devidx}.htmode=VHT80"
+			rx_stbc="set wireless.radio${devidx}.rx_stbc='0'"
+			channel=157
+			country="set wireless.radio${devidx}.country='CN'"
+			cell_density="set wireless.radio${devidx}.cell_density='0'"
 			;;
 
 		# ax200
@@ -258,6 +275,7 @@ detect_mac80211() {
 			set wireless.radio${devidx}.band=${mode_band}
 			set wireless.radio${devidx}.htmode=$htmode
 			${ht_capab}
+			${rx_stbc}
 			${country}
 			${cell_density}
 			set wireless.radio${devidx}.disabled=1
