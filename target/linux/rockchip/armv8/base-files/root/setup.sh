@@ -27,7 +27,7 @@ function init_firewall() {
 	uci set firewall.@defaults[0].forward='ACCEPT'
 
 	case "$boardname" in
-	nanopi-r5s | nanopi-r2s | nanopi-r2)
+	nanopi-r5* | nanopi-r2*)
 		uci set firewall.@defaults[0].flow_offloading='1'
 		;;
 	*)
