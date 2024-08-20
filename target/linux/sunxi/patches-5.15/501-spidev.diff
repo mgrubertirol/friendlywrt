@@ -1,0 +1,51 @@
+diff -urN linux-5.15.164-orig/arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts linux-5.15.164/arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts
+--- linux-5.15.164-orig/arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts	2024-08-22 11:56:20.582458734 +0200
++++ linux-5.15.164/arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts	2024-08-22 11:58:42.243076527 +0200
+@@ -74,3 +74,47 @@
+ &usbphy {
+ 	usb0_id_det-gpios = <&pio 6 12 GPIO_ACTIVE_HIGH>; /* PG12 */
+ };
++
++&pio {
++	spi0_cs_pins: spi0_cs_pins {
++		pins = "PC3";
++		function = "gpio_out";
++	};
++};
++
++&spi0 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&spi0_pins &spi0_cs_pins>;
++	//cs-gpios = <&pio 2 3 GPIO_ACTIVE_HIGH>;
++	cs-gpios = <&pio 2 3 GPIO_ACTIVE_LOW>;
++
++	spidev0: spi@0 {
++		compatible = "semtech,sx1301";
++		reg = <0>;
++		status = "okay";
++		spi-max-frequency = <10000000>;
++	};
++};
++    
++&pio {
++	spi1_cs_pins: spi1_cs_pins {
++		pins = "PA13";
++		function = "gpio_out";
++	};
++};
++
++&spi1 {
++	status = "okay";
++	pinctrl-names = "default";
++	pinctrl-0 = <&spi1_pins &spi1_cs_pins>;
++	//cs-gpios = <&pio 0 13 GPIO_ACTIVE_HIGH>;
++	cs-gpios = <&pio 0 13 GPIO_ACTIVE_LOW>;
++
++	spidev1: spi@0 {
++		compatible = "semtech,sx1301";
++		reg = <0>;
++		status = "okay";
++		spi-max-frequency = <10000000>;
++	};
++};

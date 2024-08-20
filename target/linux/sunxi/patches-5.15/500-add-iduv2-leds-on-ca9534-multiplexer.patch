@@ -1,0 +1,53 @@
+diff -urN linux-5.15.164-orig/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi linux-5.15.164/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
+--- linux-5.15.164-orig/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi	2024-08-20 10:07:01.947366735 +0200
++++ linux-5.15.164/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi	2024-08-20 10:14:30.737239560 +0200
+@@ -71,6 +71,30 @@
+ 			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>;
+ 			default-state = "on";
+ 		};
++
++		lora_green {
++			label = "iduv2:green:lora";
++			gpios = <&pca9534 0 GPIO_ACTIVE_LOW>;
++			default-state = "off";
++		};
++
++		lora_red {
++			label = "iduv2:red:lora";
++			gpios = <&pca9534 1 GPIO_ACTIVE_LOW>;
++			default-state = "off";
++		};
++
++		lte_red {
++			label = "iduv2:red:lte";
++			gpios = <&pca9534 2 GPIO_ACTIVE_LOW>;
++			default-state = "off";
++		};
++
++		sys_green {
++			label = "iduv2:green:sys";
++			gpios = <&pca9534 3 GPIO_ACTIVE_LOW>;
++			default-state = "heartbeat";
++		};
+ 	};
+ 
+ 	r_gpio_keys {
+@@ -109,3 +133,18 @@
+ &usbphy {
+ 	status = "okay";
+ };
++
++&i2c0 {
++	status = "okay";
++	rtc@68 {
++		compatible = "dallas,ds1307";
++		reg = <0x68>;
++		};
++	pca9534: pca9534@20 {
++		compatible = "nxp,pca9534";
++		reg = <0x20>;
++		gpio-controller;
++		#gpio-cells = <2>;
++		};
++};
++

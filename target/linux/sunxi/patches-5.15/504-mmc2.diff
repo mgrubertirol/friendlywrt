@@ -1,0 +1,24 @@
+diff -urN linux-5.15.164-orig/arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts linux-5.15.164/arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts
+--- linux-5.15.164-orig/arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts	2024-08-27 15:30:08.920194632 +0200
++++ linux-5.15.164/arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts	2024-08-27 15:35:49.984226132 +0200
+@@ -139,3 +139,19 @@
+ 	status = "okay";
+ };
+ 
++&mmc2 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc2_8bit_pins>;
++	vmmc-supply = <&reg_vcc3v3>;
++	bus-width = <8>;
++	non-removable;
++	cap-mmc-hw-reset;
++	status = "okay";
++};
++
++&mmc2_8bit_pins {
++	/* Increase drive strength for DDR modes */
++	drive-strength = <40>;
++	/* eMMC is missing pull-ups */
++	bias-pull-up;
++};
+\ Kein Zeilenumbruch am Dateiende.

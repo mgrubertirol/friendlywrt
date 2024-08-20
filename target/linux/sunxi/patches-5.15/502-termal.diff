@@ -1,0 +1,14 @@
+diff -urN linux-5.15.164-orig/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi linux-5.15.164/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
+--- linux-5.15.164-orig/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi	2024-08-22 16:50:40.801245554 +0200
++++ linux-5.15.164/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi	2024-08-22 16:53:18.707681796 +0200
+@@ -146,5 +146,11 @@
+ 		gpio-controller;
+ 		#gpio-cells = <2>;
+ 		};
++	pct2075@48 {
++		compatible = "nxp,pct2075";
++		reg = <0x48>;
++		status = "okay";
++		};
++
+ };
