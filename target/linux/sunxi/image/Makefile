@@ -12,7 +12,7 @@ FAT32_BLOCKS=$(shell echo $$(($(CONFIG_SUNXI_SD_BOOT_PARTSIZE)*1024*1024/$(FAT32
 DEVICE_VARS := SUNXI_DTS SUNXI_DTS_DIR
 KERNEL_LOADADDR:=0x40008000
 
-define Build/sunxi-sdcard
+define Build/sunxi-emmc
 	rm -f $@.boot
 	mkfs.fat $@.boot -C $(FAT32_BLOCKS)
 
@@ -33,8 +33,8 @@ define Device/Default
   PROFILES := Default
   KERNEL_NAME := zImage
   KERNEL := kernel-bin | uImage none
-  IMAGES := sdcard.img.gz
-  IMAGE/sdcard.img.gz := sunxi-sdcard | append-metadata | gzip
+  IMAGES := emmc.img.gz
+  IMAGE/emmc.img.gz := sunxi-emmc | append-metadata | gzip
   SUNXI_DTS_DIR :=
   SUNXI_DTS = $$(SUNXI_DTS_DIR)$$(SOC)-$(lastword $(subst _, ,$(1)))
 endef
