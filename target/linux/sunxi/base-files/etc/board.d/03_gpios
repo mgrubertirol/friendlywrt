@@ -15,7 +15,7 @@ logger "Lora gpio init: End"
 logger "Modem gpio init: Start"
 # Make sure to set the LTE_PERSTn to high
 if [ ! -d ${DIR}/gpio412/ ]; then
-	echo 412 > ${DIR}/gpio/export || true
+	echo 412 > ${DIR}/export || true
 fi
 echo out > ${DIR}/gpio412/direction
 echo 1 > ${DIR}/gpio412/value
