@@ -19,4 +19,5 @@ config interface 'wwan0'
         option auth 'none'
         option pdptype 'ipv4'
         option delay '20'
+        ption timeout '60'
 

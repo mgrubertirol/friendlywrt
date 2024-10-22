@@ -222,11 +222,11 @@ proto_qmi_setup() {
 	uqmi -s -d "$device" --network-register > /dev/null 2>&1
 
 	echo "Waiting for network registration"
-	sleep 1
+	sleep 5
 	local registration_timeout=0
 	local registration_state=""
 	while true; do
-		registration_state=$(uqmi -s -d "$device" --get-serving-system 2>/dev/null | jsonfilter -e "@.registration" 2>/dev/null)
+		registration_state=$(uqmi -s -d "$device" -t 1000 --get-serving-system 2>/dev/null | jsonfilter -e "@.registration" 2>/dev/null)
 
 		[ "$registration_state" = "registered" ] && break
 
@@ -234,7 +234,7 @@ proto_qmi_setup() {
 			if [ "$registration_timeout" -lt "$timeout" ] || [ "$timeout" = "0" ]; then
 				[ "$registration_state" = "searching" ] || {
 					echo "Device stopped network registration. Restart network registration"
-					uqmi -s -d "$device" --network-register > /dev/null 2>&1
+					uqmi -s -d "$device" -t 20000 --network-register > /dev/null 2>&1
 				}
 				let registration_timeout++
 				sleep 1
@@ -247,7 +247,6 @@ proto_qmi_setup() {
 		fi
 
 		proto_notify_error "$interface" NETWORK_REGISTRATION_FAILED
-		proto_block_restart "$interface"
 		return 1
 	done
 
