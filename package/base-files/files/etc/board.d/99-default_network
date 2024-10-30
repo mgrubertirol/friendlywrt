@@ -13,4 +13,7 @@ ucidef_set_interface_wan 'wwan0'
 
 board_config_flush
 
+#switch sys led to green
+echo 255 > /sys/class/leds/iduv2:green:sys/brightness
+
 exit 0
