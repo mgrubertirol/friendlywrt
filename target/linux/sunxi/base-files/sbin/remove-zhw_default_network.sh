@@ -1,4 +1,6 @@
 #!/bin/sh
 #set -ex
 
-rm -f /etc/init.d/zhw_default_network
+uci set zhw_default_network.zhw_default_network.this_enable='false'
+uci commit zhw_default_network
+

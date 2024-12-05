@@ -1,0 +1,2 @@
+config zhw_default_network 'zhw_default_network'
+	option this_enable 'true'
